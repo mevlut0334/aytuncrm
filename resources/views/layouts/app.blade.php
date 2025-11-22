@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'İSG CRM Sistemi')</title>
+    <title>@yield('title', 'AYTUN CRM Sistemi')</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +51,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{ route('dashboard') }}">
-                <i class="bi bi-shield-check"></i> İSG CRM
+                <i class="bi bi-shield-check"></i> AYTUN CRM
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -105,16 +105,6 @@
                                 </a>
                             </li>
                         @endif
-
-                        <!-- Diğer modüller buraya eklenecek -->
-                        {{-- 
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('customers.*') ? 'active' : '' }}" 
-                               href="{{ route('customers.index') }}">
-                                <i class="bi bi-person-badge"></i> Müşteriler
-                            </a>
-                        </li>
-                        --}}
                     </ul>
                 </div>
             </nav>
@@ -168,7 +158,7 @@
     <!-- Footer -->
     <footer class="bg-light text-center py-3 mt-auto">
         <div class="container">
-            <span class="text-muted">© {{ date('Y') }} İSG CRM Sistemi</span>
+            <span class="text-muted">© {{ date('Y') }} AYTUN CRM Sistemi</span>
         </div>
     </footer>
 

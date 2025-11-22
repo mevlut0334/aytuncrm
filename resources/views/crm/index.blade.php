@@ -1,24 +1,39 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard - İSG CRM')
+@section('title', 'Firma Listesi - İSG CRM')
 
 @section('content')
 <div class="container-fluid">
     {{-- Başlık ve Yeni Firma Butonu --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h2><i class="bi bi-speedometer2"></i> Dashboard</h2>
-            <small class="text-muted">
-                Hoş geldiniz, <strong>{{ auth()->user()->name }}</strong>
-                @if(auth()->user()->role === 'admin')
-                    <span class="badge bg-warning text-dark ms-1">Admin</span>
-                @endif
-            </small>
-        </div>
+    <h2><i class="bi bi-building"></i> Firma Listesi</h2>
+    
+    <div class="d-flex gap-2">
+        {{-- Excel Export Butonları - Sadece Admin --}}
+        @if(auth()->user()->role === 'admin')
+            {{-- Tümünü Dışa Aktar --}}
+            <a href="{{ route('crm.export') }}" 
+               class="btn btn-success"
+               title="Tüm firmaları Excel olarak indir">
+                <i class="bi bi-file-earmark-excel"></i> Tümünü Dışa Aktar
+            </a>
+            
+            {{-- Filtrelenmiş Verileri Dışa Aktar - Sadece filtre varsa görünür --}}
+            @if(request()->hasAny(['file_number', 'company_title', 'danger_level', 'doctor_name', 'health_staff_name', 'safety_expert_name', 'accountant_name', 'contract_creator']))
+                <a href="{{ route('crm.export', request()->query()) }}" 
+                   class="btn btn-outline-success"
+                   title="Filtrelenmiş verileri Excel olarak indir">
+                    <i class="bi bi-funnel"></i> Filtreyi Dışa Aktar
+                </a>
+            @endif
+        @endif
+        
+        {{-- Yeni Firma Ekle Butonu --}}
         <a href="{{ route('crm.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Yeni Firma Ekle
         </a>
     </div>
+</div>
 
     {{-- Filtreleme Kartı --}}
     <div class="card mb-4">
@@ -26,9 +41,9 @@
             <i class="bi bi-funnel"></i> Filtreleme
         </div>
         <div class="card-body">
-            <form method="GET" action="{{ route('dashboard') }}" id="filterForm">
+            <form method="GET" action="{{ route('crm.index') }}" id="filterForm">
                 <div class="row g-3">
-                    {{-- Dosya Numarası --}}
+                    {{-- 1. Dosya Numarası --}}
                     <div class="col-md-3">
                         <label class="form-label small">Dosya Numarası</label>
                         <input type="text" 
@@ -38,7 +53,7 @@
                                value="{{ request('file_number') }}">
                     </div>
 
-                    {{-- Firma Unvanı --}}
+                    {{-- 2. Firma Unvanı --}}
                     <div class="col-md-3">
                         <label class="form-label small">Firma Unvanı</label>
                         <input type="text" 
@@ -48,89 +63,71 @@
                                value="{{ request('company_title') }}">
                     </div>
 
-                    {{-- Tehlike Sınıfı --}}
+                    {{-- 3. Tehlike Sınıfı --}}
                     <div class="col-md-3">
                         <label class="form-label small">Tehlike Sınıfı</label>
-                        <select name="danger_level_id" class="form-select form-select-sm filter-select">
-                            <option value="">Tümü</option>
-                            @foreach($dangerLevels as $level)
-                                <option value="{{ $level->id }}" {{ request('danger_level_id') == $level->id ? 'selected' : '' }}>
-                                    {{ $level->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" 
+                               name="danger_level" 
+                               class="form-control form-control-sm filter-input" 
+                               placeholder="Tehlike sınıfı ara..."
+                               value="{{ request('danger_level') }}">
                     </div>
 
-                    {{-- İş Yeri Hekimi --}}
+                    {{-- 4. İş Yeri Hekimi --}}
                     <div class="col-md-3">
                         <label class="form-label small">İş Yeri Hekimi</label>
-                        <select name="doctor_id" class="form-select form-select-sm filter-select">
-                            <option value="">Tümü</option>
-                            @foreach($doctors as $doctor)
-                                <option value="{{ $doctor->id }}" {{ request('doctor_id') == $doctor->id ? 'selected' : '' }}>
-                                    {{ $doctor->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" 
+                               name="doctor_name" 
+                               class="form-control form-control-sm filter-input" 
+                               placeholder="Hekim ara..."
+                               value="{{ request('doctor_name') }}">
                     </div>
 
-                    {{-- Sağlık Personeli --}}
+                    {{-- 5. Sağlık Personeli --}}
                     <div class="col-md-3">
                         <label class="form-label small">Sağlık Personeli</label>
-                        <select name="health_staff_id" class="form-select form-select-sm filter-select">
-                            <option value="">Tümü</option>
-                            @foreach($healthStaff as $staff)
-                                <option value="{{ $staff->id }}" {{ request('health_staff_id') == $staff->id ? 'selected' : '' }}>
-                                    {{ $staff->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" 
+                               name="health_staff_name" 
+                               class="form-control form-control-sm filter-input" 
+                               placeholder="Sağlık personeli ara..."
+                               value="{{ request('health_staff_name') }}">
                     </div>
 
-                    {{-- İş Güvenliği Uzmanı --}}
+                    {{-- 6. İş Güvenliği Uzmanı --}}
                     <div class="col-md-3">
                         <label class="form-label small">İş Güvenliği Uzmanı</label>
-                        <select name="safety_expert_id" class="form-select form-select-sm filter-select">
-                            <option value="">Tümü</option>
-                            @foreach($safetyExperts as $expert)
-                                <option value="{{ $expert->id }}" {{ request('safety_expert_id') == $expert->id ? 'selected' : '' }}>
-                                    {{ $expert->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" 
+                               name="safety_expert_name" 
+                               class="form-control form-control-sm filter-input" 
+                               placeholder="Uzman ara..."
+                               value="{{ request('safety_expert_name') }}">
                     </div>
 
-                    {{-- Mali Müşavir --}}
+                    {{-- 7. Mali Müşavir --}}
                     <div class="col-md-3">
                         <label class="form-label small">Mali Müşavir</label>
-                        <select name="accountant_id" class="form-select form-select-sm filter-select">
-                            <option value="">Tümü</option>
-                            @foreach($accountants as $accountant)
-                                <option value="{{ $accountant->id }}" {{ request('accountant_id') == $accountant->id ? 'selected' : '' }}>
-                                    {{ $accountant->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" 
+                               name="accountant_name" 
+                               class="form-control form-control-sm filter-input" 
+                               placeholder="Mali müşavir ara..."
+                               value="{{ request('accountant_name') }}">
                     </div>
 
-                    {{-- Sözleşmeyi Yapan --}}
+                    {{-- 8. Sözleşmeyi Yapan --}}
                     <div class="col-md-3">
                         <label class="form-label small">Sözleşmeyi Yapan</label>
-                        <select name="contract_creator_id" class="form-select form-select-sm filter-select">
-                            <option value="">Tümü</option>
-                            @foreach($contractCreators as $creator)
-                                <option value="{{ $creator->id }}" {{ request('contract_creator_id') == $creator->id ? 'selected' : '' }}>
-                                    {{ $creator->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" 
+                               name="contract_creator" 
+                               class="form-control form-control-sm filter-input" 
+                               placeholder="Sözleşmeyi yapan ara..."
+                               value="{{ request('contract_creator') }}">
                     </div>
                 </div>
 
                 {{-- Filtre Butonları --}}
                 <div class="row mt-3">
                     <div class="col-12 text-end">
-                        <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm">
+                        <a href="{{ route('crm.index') }}" class="btn btn-secondary btn-sm">
                             <i class="bi bi-x-circle"></i> Temizle
                         </a>
                         <button type="submit" class="btn btn-primary btn-sm">
@@ -146,14 +143,16 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-striped">
+                <table class="table table-hover table-striped align-middle">
                     <thead class="table-dark">
                         <tr>
                             <th>Dosya No</th>
                             <th>Firma Unvanı</th>
                             <th>Tehlike Sınıfı</th>
                             <th>İş Yeri Hekimi</th>
+                            <th>Sağlık Personeli</th>
                             <th>İş Güv. Uzmanı</th>
+                            <th>Mali Müşavir</th>
                             <th>Sözleşmeyi Yapan</th>
                             <th class="text-center">İşlemler</th>
                         </tr>
@@ -161,10 +160,15 @@
                     <tbody>
                         @forelse($records as $record)
                             <tr style="cursor: pointer;" onclick="window.location='{{ route('crm.show', $record->id) }}'">
-                                <td>{{ $record->file_number }}</td>
+                                {{-- 1. Dosya No --}}
+                                <td><strong>{{ $record->file_number }}</strong></td>
+                                
+                                {{-- 2. Firma Unvanı --}}
                                 <td>
                                     <strong>{{ $record->company_title }}</strong>
                                 </td>
+                                
+                                {{-- 3. Tehlike Sınıfı --}}
                                 <td>
                                     @if($record->dangerLevel)
                                         <span class="badge bg-{{ $record->dangerLevel->name == 'Az Tehlikeli' ? 'success' : ($record->dangerLevel->name == 'Tehlikeli' ? 'warning' : 'danger') }}">
@@ -174,9 +178,47 @@
                                         <span class="text-muted">-</span>
                                     @endif
                                 </td>
-                                <td>{{ $record->doctor->name ?? '-' }}</td>
-                                <td>{{ $record->safetyExpert->name ?? '-' }}</td>
-                                <td>{{ $record->contractCreator->name ?? '-' }}</td>
+                                
+                                {{-- 4. İş Yeri Hekimi --}}
+                                <td>
+                                    @if($record->doctor_name)
+                                        <i class="bi bi-person-badge text-success"></i> {{ $record->doctor_name }}
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                                
+                                {{-- 5. Sağlık Personeli --}}
+                                <td>
+                                    @if($record->health_staff_name)
+                                        <i class="bi bi-heart-pulse text-info"></i> {{ $record->health_staff_name }}
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                                
+                                {{-- 6. İş Güvenliği Uzmanı --}}
+                                <td>
+                                    @if($record->safety_expert_name)
+                                        <i class="bi bi-shield-check text-warning"></i> {{ $record->safety_expert_name }}
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                                
+                                {{-- 7. Mali Müşavir --}}
+                                <td>
+                                    @if($record->accountant_name)
+                                        <i class="bi bi-calculator text-primary"></i> {{ $record->accountant_name }}
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
+                                
+                                {{-- 8. Sözleşmeyi Yapan --}}
+                                <td>{{ $record->contract_creator_name ?? '-' }}</td>
+                                
+                                {{-- İşlemler --}}
                                 <td class="text-center" onclick="event.stopPropagation();">
                                     {{-- Detay Butonu - Herkes --}}
                                     <a href="{{ route('crm.show', $record->id) }}" 
@@ -207,7 +249,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-4">
+                                <td colspan="9" class="text-center text-muted py-4">
                                     <i class="bi bi-inbox display-6 d-block mb-2"></i>
                                     Kayıtlı firma bulunamadı.
                                 </td>
@@ -237,7 +279,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let typingTimer;
-    const doneTypingInterval = 500;
+    const doneTypingInterval = 500; // 500ms bekle
 
     // Text inputlar için (3 harf yazınca otomatik arama)
     document.querySelectorAll('.filter-input').forEach(function(input) {
@@ -245,18 +287,12 @@ document.addEventListener('DOMContentLoaded', function() {
             clearTimeout(typingTimer);
             const value = this.value.trim();
             
+            // 3 veya daha fazla karakter girildiğinde veya alan boşaltıldığında
             if (value.length >= 3 || value.length === 0) {
                 typingTimer = setTimeout(function() {
                     document.getElementById('filterForm').submit();
                 }, doneTypingInterval);
             }
-        });
-    });
-
-    // Select değiştiğinde otomatik submit
-    document.querySelectorAll('.filter-select').forEach(function(select) {
-        select.addEventListener('change', function() {
-            document.getElementById('filterForm').submit();
         });
     });
 });

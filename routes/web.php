@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CrmRecordController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Auth;
 // ============================================
 Route::get('/', function () {
     if (Auth::check()) {
-        return redirect()->route('dashboard');
+        return redirect()->route('crm.index');
     }
-    return view('welcome'); // Laravel varsayılan sayfası
+    return view('welcome');
 })->name('home');
 
 // ============================================
@@ -29,10 +29,12 @@ Route::post('/logout', [LoginController::class, 'logout'])
     ->middleware('auth');
 
 // ============================================
-// DASHBOARD - Tüm kullanıcılar erişebilir
+// DASHBOARD - CRM Index'e yönlendir (geriye uyumluluk için)
 // ============================================
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', function () {
+        return redirect()->route('crm.index');
+    })->name('dashboard');
 });
 
 // ============================================
@@ -48,41 +50,36 @@ Route::middleware(['auth', \App\Http\Middleware\EnsureUserIsAdmin::class])->pref
 });
 
 // ============================================
-// 👥 TÜM KULLANICILAR - Diğer Modüller
-// Normal kullanıcı: Görüntüleme + Ekleme ✅ | Düzenleme + Silme ❌
-// Admin: Her şey ✅
+// 👥 TÜM KULLANICILAR - CRM Modülü
 // ============================================
 Route::middleware(['auth'])->group(function () {
     
-    // Örnek: Müşteriler Modülü (ileride eklenecek)
-    /*
-    Route::prefix('customers')->name('customers.')->group(function () {
+    // ============================================
+    // 🏢 CRM - Firma Kayıtları Modülü
+    // ============================================
+    Route::prefix('crm')->name('crm.')->group(function () {
         // Görüntüleme ve Ekleme - Herkes yapabilir
-        Route::get('/', [CustomerController::class, 'index'])->name('index');
-        Route::get('/create', [CustomerController::class, 'create'])->name('create');
-        Route::post('/', [CustomerController::class, 'store'])->name('store');
+        Route::get('/', [CrmRecordController::class, 'index'])->name('index');
+        Route::get('/create', [CrmRecordController::class, 'create'])->name('create');
+        Route::post('/', [CrmRecordController::class, 'store'])->name('store');
+        
+        // ✅ Excel Export - Sadece Admin (/{id}'den ÖNCE olmalı!)
+        Route::get('/export', [CrmRecordController::class, 'export'])->name('export');
+        
+        Route::get('/{id}', [CrmRecordController::class, 'show'])->name('show');
         
         // Düzenleme ve Silme - Sadece Admin
         Route::middleware([\App\Http\Middleware\PreventDataModification::class])->group(function () {
-            Route::get('/{customer}/edit', [CustomerController::class, 'edit'])->name('edit');
-            Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
-            Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
+            Route::get('/{id}/edit', [CrmRecordController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [CrmRecordController::class, 'update'])->name('update');
+            Route::delete('/{id}', [CrmRecordController::class, 'destroy'])->name('destroy');
         });
     });
-    */
+
+    // ============================================
+    // 📍 AJAX - İlçeleri Getir (İl seçilince)
+    // ============================================
+    Route::get('/api/districts/{province_id}', [CrmRecordController::class, 'getDistricts'])
+        ->name('api.districts');
     
-    // Örnek: Firmalar Modülü (ileride eklenecek)
-    /*
-    Route::prefix('companies')->name('companies.')->group(function () {
-        Route::get('/', [CompanyController::class, 'index'])->name('index');
-        Route::get('/create', [CompanyController::class, 'create'])->name('create');
-        Route::post('/', [CompanyController::class, 'store'])->name('store');
-        
-        Route::middleware([\App\Http\Middleware\PreventDataModification::class])->group(function () {
-            Route::get('/{company}/edit', [CompanyController::class, 'edit'])->name('edit');
-            Route::put('/{company}', [CompanyController::class, 'update'])->name('update');
-            Route::delete('/{company}', [CompanyController::class, 'destroy'])->name('destroy');
-        });
-    });
-    */
 });

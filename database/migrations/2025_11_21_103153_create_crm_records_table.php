@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             
             // Firma Bilgileri
-            $table->string('file_number')->unique()->index(); // Dosya numarası - unique ve index
+            $table->string('file_number')->index(); // Dosya numarası - index
             $table->string('company_title')->index(); // Firma unvanı - arama için index
             $table->text('company_address');
             
@@ -26,7 +26,7 @@ return new class extends Migration
             
             // Vergi ve Resmi Bilgiler
             $table->string('tax_office');
-            $table->string('tax_number')->unique()->index(); // Vergi no - unique ve index
+            $table->string('tax_number')->index(); // Vergi no - index
             $table->string('sgk_number')->nullable();
             $table->string('trade_register_no')->nullable();
             $table->string('identity_no')->nullable(); // TC Kimlik No
