@@ -21,7 +21,7 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
 
     public function query()
     {
-        $query = CrmRecord::query()->with(['dangerLevel']);
+        $query = CrmRecord::query()->with(['dangerLevel', 'province', 'district']);
 
         // Filtreleri uygula
         if (!empty($this->filters['file_number'])) {
@@ -64,30 +64,102 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
     public function headings(): array
     {
         return [
+            // Temel Bilgiler
             'Dosya No',
             'Firma Unvanı',
+            'Firma Adresi',
+            'İl',
+            'İlçe',
+            'Mahalle',
+            
+            // Vergi & Resmi Bilgiler
+            'Vergi Dairesi',
+            'Vergi No',
+            'SGK No',
+            'Ticaret Sicil No',
+            'TC Kimlik No',
+            
+            // İletişim Bilgileri
+            'Yetkili Adı',
+            'Telefon',
+            'E-posta',
+            
+            // İSG Bilgileri
+            'Personel Sayısı',
             'Tehlike Sınıfı',
             'İş Yeri Hekimi',
             'Sağlık Personeli',
             'İş Güvenliği Uzmanı',
             'Mali Müşavir',
+            
+            // Sözleşme Bilgileri
             'Sözleşmeyi Yapan',
+            'Sözleşme Başlangıç',
+            'Sözleşme Bitiş',
+            'Sözleşme Süresi (Ay)',
+            'Aylık Ücret',
+            'Aylık KDV',
+            'Aylık Toplam',
+            
+            // Randevu Bilgileri
+            'Randevu Tarihi',
+            'Randevu Saati',
+            
+            // Diğer
+            'Notlar',
             'Oluşturulma Tarihi',
+            'Güncellenme Tarihi',
         ];
     }
 
     public function map($record): array
     {
         return [
-            $record->file_number,
-            $record->company_title,
+            // Temel Bilgiler
+            $record->file_number ?? '-',
+            $record->company_title ?? '-',
+            $record->company_address ?? '-',
+            $record->province?->name ?? '-',
+            $record->district?->name ?? '-',
+            $record->neighborhood ?? '-',
+            
+            // Vergi & Resmi Bilgiler
+            $record->tax_office ?? '-',
+            $record->tax_number ?? '-',
+            $record->sgk_number ?? '-',
+            $record->trade_register_no ?? '-',
+            $record->identity_no ?? '-',
+            
+            // İletişim Bilgileri
+            $record->officer_name ?? '-',
+            $record->phone ?? '-',
+            $record->email ?? '-',
+            
+            // İSG Bilgileri
+            $record->personnel_count ?? '-',
             $record->dangerLevel?->name ?? '-',
             $record->doctor_name ?? '-',
             $record->health_staff_name ?? '-',
             $record->safety_expert_name ?? '-',
             $record->accountant_name ?? '-',
+            
+            // Sözleşme Bilgileri
             $record->contract_creator_name ?? '-',
+            $record->contract_start ? date('d.m.Y', strtotime($record->contract_start)) : '-',
+            $record->contract_end ? date('d.m.Y', strtotime($record->contract_end)) : '-',
+            $record->contract_months ?? '-',
+            $record->monthly_price ? number_format($record->monthly_price, 2, ',', '.') . ' ₺' : '-',
+            $record->monthly_kdv ? number_format($record->monthly_kdv, 2, ',', '.') . ' ₺' : '-',
+            $record->monthly_total ? number_format($record->monthly_total, 2, ',', '.') . ' ₺' : '-',
+            
+            // Randevu Bilgileri
+            $record->appointment_date ? date('d.m.Y', strtotime($record->appointment_date)) : '-',
+            $record->appointment_time ?? '-',
+            
+            // Diğer
+            $record->notes ?? '-',
             $record->created_at?->format('d.m.Y H:i') ?? '-',
+            $record->updated_at?->format('d.m.Y H:i') ?? '-',
         ];
     }
 
