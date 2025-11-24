@@ -11,9 +11,9 @@ class UserSeeder extends Seeder
     {
         // Admin kullanıcı
         User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@crm.com',
-            'password' => '123456', // Otomatik hash'lenecek
+            'name' => 'Super Admin',
+            'email' => 'superadmin@crm.com',
+            'password' => '270317', // Otomatik hash'lenecek
             'role' => 'admin',
             'is_active' => true,
         ]);
@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Test User',
             'email' => 'test@crm.com',
-            'password' => '123456',
+            'password' => '270317',
             'role' => 'user',
             'is_active' => true,
         ]);

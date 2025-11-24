@@ -20,31 +20,31 @@ class StoreCrmRecordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Firma Bilgileri
-            'file_number' => ['required', 'string', 'max:255'], // ✅ unique kaldırıldı
+            // Firma Bilgileri - ZORUNLU
+            'file_number' => ['required', 'string', 'max:255'],
             'company_title' => ['required', 'string', 'max:255'],
             'company_address' => ['required', 'string'],
             
-            // Lokasyon Bilgileri
+            // Lokasyon Bilgileri - ZORUNLU
             'province_id' => ['required', 'exists:provinces,id'],
             'district_id' => ['required', 'exists:districts,id'],
             'neighborhood' => ['nullable', 'string', 'max:255'],
             
-            // Vergi ve Resmi Bilgiler
+            // Vergi ve Resmi Bilgiler - ZORUNLU
             'tax_office' => ['required', 'string', 'max:255'],
-            'tax_number' => ['required', 'string', 'max:255'], // ✅ unique kaldırıldı
+            'tax_number' => ['required', 'string', 'max:255'],
             'sgk_number' => ['nullable', 'string', 'max:255'],
             'trade_register_no' => ['nullable', 'string', 'max:255'],
             'identity_no' => ['nullable', 'string', 'max:11'], // TC Kimlik 11 haneli
             
-            // Yetkili Bilgileri
-            'officer_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:20'],
+            // Yetkili Bilgileri - OPSİYONEL
+            'officer_name' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:20'],
             'email' => ['nullable', 'email', 'max:255'],
             
-            // İş Yeri Bilgileri
-            'personnel_count' => ['required', 'integer', 'min:0'],
-            'danger_level_id' => ['required', 'exists:danger_levels,id'],
+            // İş Yeri Bilgileri - OPSİYONEL
+            'personnel_count' => ['nullable', 'integer', 'min:0'],
+            'danger_level_id' => ['nullable', 'exists:danger_levels,id'],
             
             // Personel Atamaları (Hepsi opsiyonel)
             'doctor_id' => ['nullable', 'exists:personnels,id'],
@@ -58,17 +58,17 @@ class StoreCrmRecordRequest extends FormRequest
             'safety_expert_name' => ['nullable', 'string', 'max:255'],
             'accountant_name' => ['nullable', 'string', 'max:255'],
             
-            // Sözleşme Bilgileri
+            // Sözleşme Bilgileri - OPSİYONEL
             'contract_creator_id' => ['nullable', 'exists:users,id'],
-            'contract_creator_name' => ['required', 'string', 'max:255'],
-            'contract_start' => ['required', 'date'],
-            'contract_end' => ['required', 'date', 'after:contract_start'],
-            'contract_months' => ['required', 'integer', 'min:1', 'max:120'],
+            'contract_creator_name' => ['nullable', 'string', 'max:255'],
+            'contract_start' => ['nullable', 'date'],
+            'contract_end' => ['nullable', 'date', 'after_or_equal:contract_start'],
+            'contract_months' => ['nullable', 'integer', 'min:1', 'max:120'],
             
-            // Fiyat Bilgileri
-            'monthly_price' => ['required', 'numeric', 'min:0', 'max:9999999.99'],
-            'monthly_kdv' => ['required', 'numeric', 'min:0', 'max:9999999.99'],
-            'monthly_total' => ['required', 'numeric', 'min:0', 'max:9999999.99'],
+            // Fiyat Bilgileri - OPSİYONEL
+            'monthly_price' => ['nullable', 'numeric', 'min:0', 'max:9999999.99'],
+            'monthly_kdv' => ['nullable', 'numeric', 'min:0', 'max:9999999.99'],
+            'monthly_total' => ['nullable', 'numeric', 'min:0', 'max:9999999.99'],
             
             // Randevu Bilgileri (Opsiyonel)
             'appointment_date' => ['nullable', 'date'],
@@ -98,28 +98,17 @@ class StoreCrmRecordRequest extends FormRequest
             'tax_number.required' => 'Vergi numarası zorunludur.',
             'identity_no.max' => 'TC Kimlik numarası en fazla 11 haneli olabilir.',
             
-            'officer_name.required' => 'Yetkili adı zorunludur.',
-            'phone.required' => 'Telefon numarası zorunludur.',
             'email.email' => 'Geçerli bir e-posta adresi giriniz.',
             
-            'personnel_count.required' => 'Personel sayısı zorunludur.',
             'personnel_count.integer' => 'Personel sayısı rakam olmalıdır.',
             'personnel_count.min' => 'Personel sayısı 0\'dan küçük olamaz.',
             
-            'danger_level_id.required' => 'Tehlike sınıfı seçimi zorunludur.',
             'danger_level_id.exists' => 'Seçilen tehlike sınıfı geçersiz.',
             
-            'contract_creator_name.required' => 'Sözleşmeyi yapan kişi adı zorunludur.',
-            'contract_start.required' => 'Sözleşme başlangıç tarihi zorunludur.',
             'contract_start.date' => 'Geçerli bir tarih giriniz.',
-            'contract_end.required' => 'Sözleşme bitiş tarihi zorunludur.',
-            'contract_end.after' => 'Bitiş tarihi, başlangıç tarihinden sonra olmalıdır.',
-            'contract_months.required' => 'Sözleşme süresi zorunludur.',
+            'contract_end.after_or_equal' => 'Bitiş tarihi, başlangıç tarihinden önce olamaz.',
             
-            'monthly_price.required' => 'Aylık fiyat zorunludur.',
             'monthly_price.numeric' => 'Aylık fiyat rakam olmalıdır.',
-            'monthly_kdv.required' => 'KDV tutarı zorunludur.',
-            'monthly_total.required' => 'Toplam tutar zorunludur.',
             
             'appointment_time.date_format' => 'Randevu saati HH:MM formatında olmalıdır.',
         ];

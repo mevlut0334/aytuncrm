@@ -20,31 +20,31 @@ class UpdateCrmRecordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Firma Bilgileri
-            'file_number' => ['required', 'string', 'max:255'], // ✅ unique kaldırıldı
+            // Firma Bilgileri - ZORUNLU
+            'file_number' => ['required', 'string', 'max:255'],
             'company_title' => ['required', 'string', 'max:255'],
             'company_address' => ['required', 'string'],
             
-            // Lokasyon
+            // Lokasyon - ZORUNLU
             'province_id' => ['required', 'integer', 'exists:provinces,id'],
             'district_id' => ['required', 'integer', 'exists:districts,id'],
             'neighborhood' => ['nullable', 'string', 'max:255'],
             
-            // Vergi ve Resmi Bilgiler
+            // Vergi ve Resmi Bilgiler - ZORUNLU
             'tax_office' => ['required', 'string', 'max:255'],
-            'tax_number' => ['required', 'string', 'max:255'], // ✅ unique kaldırıldı
+            'tax_number' => ['required', 'string', 'max:255'],
             'sgk_number' => ['nullable', 'string', 'max:255'],
             'trade_register_no' => ['nullable', 'string', 'max:255'],
             'identity_no' => ['nullable', 'string', 'max:11'],
             
-            // Yetkili Bilgileri
-            'officer_name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:20'],
+            // Yetkili Bilgileri - OPSİYONEL
+            'officer_name' => ['nullable', 'string', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:20'],
             'email' => ['nullable', 'email', 'max:255'],
             
-            // İş Yeri Bilgileri
-            'personnel_count' => ['required', 'integer', 'min:0'],
-            'danger_level_id' => ['required', 'integer', 'exists:danger_levels,id'],
+            // İş Yeri Bilgileri - OPSİYONEL
+            'personnel_count' => ['nullable', 'integer', 'min:0'],
+            'danger_level_id' => ['nullable', 'integer', 'exists:danger_levels,id'],
             
             // Personel Atamaları (opsiyonel)
             'doctor_id' => ['nullable', 'integer', 'exists:personnels,id'],
@@ -58,15 +58,15 @@ class UpdateCrmRecordRequest extends FormRequest
             'safety_expert_name' => ['nullable', 'string', 'max:255'],
             'accountant_name' => ['nullable', 'string', 'max:255'],
             
-            // Sözleşme Bilgileri
+            // Sözleşme Bilgileri - OPSİYONEL
             'contract_creator_id' => ['nullable', 'integer', 'exists:users,id'],
-            'contract_creator_name' => ['required', 'string', 'max:255'],
-            'contract_start' => ['required', 'date'],
-            'contract_end' => ['nullable', 'date', 'after:contract_start'],
-            'contract_months' => ['required', 'integer', 'min:1', 'max:120'],
+            'contract_creator_name' => ['nullable', 'string', 'max:255'],
+            'contract_start' => ['nullable', 'date'],
+            'contract_end' => ['nullable', 'date', 'after_or_equal:contract_start'],
+            'contract_months' => ['nullable', 'integer', 'min:1', 'max:120'],
             
-            // Fiyat Bilgileri
-            'monthly_price' => ['required', 'numeric', 'min:0'],
+            // Fiyat Bilgileri - OPSİYONEL
+            'monthly_price' => ['nullable', 'numeric', 'min:0'],
             'monthly_kdv' => ['nullable', 'numeric', 'min:0'],
             'monthly_total' => ['nullable', 'numeric', 'min:0'],
             
@@ -129,10 +129,9 @@ class UpdateCrmRecordRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'contract_end.after' => 'Sözleşme bitiş tarihi, başlangıç tarihinden sonra olmalıdır.',
+            'contract_end.after_or_equal' => 'Sözleşme bitiş tarihi, başlangıç tarihinden önce olamaz.',
             'identity_no.max' => 'TC Kimlik No 11 haneden fazla olamaz.',
             'email.email' => 'Geçerli bir e-posta adresi giriniz.',
-            'phone.required' => 'Telefon numarası zorunludur.',
             'province_id.exists' => 'Seçilen il geçersiz.',
             'district_id.exists' => 'Seçilen ilçe geçersiz.',
         ];

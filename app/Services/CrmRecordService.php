@@ -50,66 +50,35 @@ class CrmRecordService implements CrmRecordServiceInterface
     /**
      * Yeni firma kaydet
      */
-    public function store(array $data): CrmRecord
-    {
-        try {
-            // ✅ Unique kontrolleri kaldırıldı - aynı firma için birden fazla kayıt oluşturulabilir
-
-            // Sözleşme bitiş tarihi hesapla (eğer boşsa)
-            if (isset($data['contract_start']) && empty($data['contract_end'])) {
-                $months = $data['contract_months'] ?? 12;
-                $data['contract_end'] = date('Y-m-d', strtotime($data['contract_start'] . " +{$months} months"));
-            }
-
-            // KDV ve Toplam hesapla (eğer boşsa)
-            if (isset($data['monthly_price'])) {
-                if (empty($data['monthly_kdv'])) {
-                    $data['monthly_kdv'] = $data['monthly_price'] * 0.20; // %20 KDV
-                }
-                if (empty($data['monthly_total'])) {
-                    $data['monthly_total'] = $data['monthly_price'] + $data['monthly_kdv'];
-                }
-            }
-
-            return $this->repository->store($data);
-        } catch (\Exception $e) {
-            Log::error('CrmRecordService::store Error', [
-                'data' => $data,
-                'error' => $e->getMessage()
-            ]);
-            throw $e;
-        }
+ public function store(array $data): CrmRecord
+{
+    try {
+        return $this->repository->store($data);
+    } catch (\Exception $e) {
+        Log::error('CrmRecordService::store Error', [
+            'data' => $data,
+            'error' => $e->getMessage()
+        ]);
+        throw $e;
     }
+}
 
     /**
      * Firma güncelle
      */
-    public function update(int $id, array $data): CrmRecord
-    {
-        try {
-            // ✅ Unique kontrolleri kaldırıldı - aynı firma için birden fazla kayıt oluşturulabilir
-
-            // Sözleşme bitiş tarihi hesapla (eğer değiştiyse)
-            if (isset($data['contract_start']) && isset($data['contract_months'])) {
-                $data['contract_end'] = date('Y-m-d', strtotime($data['contract_start'] . " +{$data['contract_months']} months"));
-            }
-
-            // KDV ve Toplam hesapla
-            if (isset($data['monthly_price'])) {
-                $data['monthly_kdv'] = $data['monthly_price'] * 0.20;
-                $data['monthly_total'] = $data['monthly_price'] + $data['monthly_kdv'];
-            }
-
-            return $this->repository->update($id, $data);
-        } catch (\Exception $e) {
-            Log::error('CrmRecordService::update Error', [
-                'id' => $id,
-                'data' => $data,
-                'error' => $e->getMessage()
-            ]);
-            throw $e;
-        }
+   public function update(int $id, array $data): CrmRecord
+{
+    try {
+        return $this->repository->update($id, $data);
+    } catch (\Exception $e) {
+        Log::error('CrmRecordService::update Error', [
+            'id' => $id,
+            'data' => $data,
+            'error' => $e->getMessage()
+        ]);
+        throw $e;
     }
+}
 
     /**
      * Firma sil

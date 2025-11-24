@@ -238,11 +238,11 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-4">
                         <label for="officer_name" class="form-label">
-                            Yetkili Adı Soyadı <span class="text-danger">*</span>
+                            Yetkili Adı Soyadı 
                         </label>
                         <input type="text" class="form-control form-control-sm @error('officer_name') is-invalid @enderror"
                                id="officer_name" name="officer_name" value="{{ old('officer_name') }}"
-                               placeholder="Ad Soyad" required>
+                               placeholder="Ad Soyad">
                         @error('officer_name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -250,11 +250,11 @@
 
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="phone" class="form-label">
-                            Telefon <span class="text-danger">*</span>
+                            Telefon 
                         </label>
                         <input type="text" class="form-control form-control-sm @error('phone') is-invalid @enderror"
                                id="phone" name="phone" value="{{ old('phone') }}"
-                               placeholder="0XXX XXX XX XX" required>
+                               placeholder="0XXX XXX XX XX">
                         @error('phone')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -282,11 +282,11 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-6">
                         <label for="personnel_count" class="form-label">
-                            Personel Sayısı <span class="text-danger">*</span>
+                            Personel Sayısı 
                         </label>
                         <input type="number" class="form-control form-control-sm @error('personnel_count') is-invalid @enderror"
                                id="personnel_count" name="personnel_count"
-                               value="{{ old('personnel_count', 0) }}" min="0" placeholder="Örn: 50" required>
+                               value="{{ old('personnel_count') }}" min="0" placeholder="Örn: 50">
                         @error('personnel_count')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -294,10 +294,10 @@
 
                     <div class="col-12 col-md-6">
                         <label for="danger_level_id" class="form-label">
-                            Tehlike Sınıfı <span class="text-danger">*</span>
+                            Tehlike Sınıfı 
                         </label>
                         <select class="form-select form-select-sm @error('danger_level_id') is-invalid @enderror"
-                                id="danger_level_id" name="danger_level_id" required>
+                                id="danger_level_id" name="danger_level_id">
                             <option value="">Seçiniz</option>
                             @foreach($dangerLevels as $level)
                                 <option value="{{ $level->id }}" {{ old('danger_level_id') == $level->id ? 'selected' : '' }}>
@@ -372,12 +372,12 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_creator_name" class="form-label">
-                            Sözleşmeyi Yapan <span class="text-danger">*</span>
+                            Sözleşmeyi Yapan
                         </label>
                         <input type="text" class="form-control form-control-sm @error('contract_creator_name') is-invalid @enderror"
                                id="contract_creator_name" name="contract_creator_name" 
-                               value="{{ old('contract_creator_name', auth()->user()->name) }}"
-                               placeholder="Ad Soyad" required>
+                               value="{{ old('contract_creator_name') }}"
+                               placeholder="Ad Soyad">
                         @error('contract_creator_name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -385,11 +385,11 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_start" class="form-label">
-                            Sözleşme Başlangıç <span class="text-danger">*</span>
+                            Sözleşme Başlangıç 
                         </label>
                         <input type="date" class="form-control form-control-sm @error('contract_start') is-invalid @enderror"
                                id="contract_start" name="contract_start"
-                               value="{{ old('contract_start', date('Y-m-d')) }}" required>
+                               value="{{ old('contract_start') }}">
                         @error('contract_start')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -397,10 +397,10 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_end" class="form-label">
-                            Sözleşme Bitiş <span class="text-danger">*</span>
+                            Sözleşme Bitiş 
                         </label>
                         <input type="date" class="form-control form-control-sm @error('contract_end') is-invalid @enderror"
-                               id="contract_end" name="contract_end" value="{{ old('contract_end') }}" required>
+                               id="contract_end" name="contract_end" value="{{ old('contract_end') }}">
                         @error('contract_end')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -408,11 +408,11 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_months" class="form-label">
-                            Sözleşme Süresi (Ay) <span class="text-danger">*</span>
+                            Sözleşme Süresi (Ay)
                         </label>
                         <input type="number" class="form-control form-control-sm @error('contract_months') is-invalid @enderror"
                                id="contract_months" name="contract_months"
-                               value="{{ old('contract_months', 12) }}" min="1" max="120" required>
+                               value="{{ old('contract_months') }}" min="1" max="120">
                         @error('contract_months')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -430,11 +430,11 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-4">
                         <label for="monthly_price" class="form-label">
-                            Aylık Fiyat (₺) <span class="text-danger">*</span>
+                            Aylık Fiyat (₺) 
                         </label>
                         <input type="number" class="form-control form-control-sm @error('monthly_price') is-invalid @enderror"
-                               id="monthly_price" name="monthly_price" value="{{ old('monthly_price', 0) }}"
-                               step="0.01" min="0" placeholder="0.00" required>
+                               id="monthly_price" name="monthly_price" value="{{ old('monthly_price') }}"
+                               step="0.01" min="0" placeholder="0.00">
                         @error('monthly_price')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -442,11 +442,11 @@
 
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="monthly_kdv" class="form-label">
-                            KDV (₺) <span class="text-danger">*</span>
+                            KDV (₺) 
                         </label>
                         <input type="number" class="form-control form-control-sm @error('monthly_kdv') is-invalid @enderror"
-                               id="monthly_kdv" name="monthly_kdv" value="{{ old('monthly_kdv', 0) }}"
-                               step="0.01" min="0" placeholder="0.00" required>
+                               id="monthly_kdv" name="monthly_kdv" value="{{ old('monthly_kdv') }}"
+                               step="0.01" min="0" placeholder="0.00">
                         @error('monthly_kdv')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -454,11 +454,11 @@
 
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="monthly_total" class="form-label">
-                            Toplam (₺) <span class="text-danger">*</span>
+                            Toplam (₺)
                         </label>
                         <input type="number" class="form-control form-control-sm @error('monthly_total') is-invalid @enderror"
-                               id="monthly_total" name="monthly_total" value="{{ old('monthly_total', 0) }}"
-                               step="0.01" min="0" placeholder="0.00" required>
+                               id="monthly_total" name="monthly_total" value="{{ old('monthly_total') }}"
+                               step="0.01" min="0" placeholder="0.00">
                         @error('monthly_total')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

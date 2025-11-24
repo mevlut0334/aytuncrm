@@ -31,14 +31,14 @@ return new class extends Migration
             $table->string('trade_register_no')->nullable();
             $table->string('identity_no')->nullable(); // TC Kimlik No
             
-            // Yetkili Bilgileri
-            $table->string('officer_name');
-            $table->string('phone')->index(); // Telefon - arama için index
+            // Yetkili Bilgileri - OPSİYONEL
+            $table->string('officer_name')->nullable();
+            $table->string('phone')->nullable()->index(); // Telefon - arama için index
             $table->string('email')->nullable()->index(); // Email - arama için index
             
-            // İş Yeri Bilgileri
-            $table->integer('personnel_count')->default(0);
-            $table->foreignId('danger_level_id')->constrained('danger_levels')->onDelete('restrict');
+            // İş Yeri Bilgileri - OPSİYONEL
+            $table->integer('personnel_count')->nullable();
+            $table->foreignId('danger_level_id')->nullable()->constrained('danger_levels')->onDelete('restrict');
             
             // Personel Atamaları
             $table->foreignId('doctor_id')->nullable()->constrained('personnels')->onDelete('set null');
@@ -46,16 +46,16 @@ return new class extends Migration
             $table->foreignId('safety_expert_id')->nullable()->constrained('personnels')->onDelete('set null');
             $table->foreignId('accountant_id')->nullable()->constrained('personnels')->onDelete('set null');
             
-            // Sözleşme Bilgileri
-            $table->foreignId('contract_creator_id')->constrained('users')->onDelete('restrict');
-            $table->date('contract_start')->index(); // Sözleşme aramaları için index
-            $table->date('contract_end')->index(); // Bitiş tarihi aramaları için index
-            $table->integer('contract_months')->default(12);
+            // Sözleşme Bilgileri - OPSİYONEL
+            $table->foreignId('contract_creator_id')->nullable()->constrained('users')->onDelete('restrict');
+            $table->date('contract_start')->nullable()->index(); // Sözleşme aramaları için index
+            $table->date('contract_end')->nullable()->index(); // Bitiş tarihi aramaları için index
+            $table->integer('contract_months')->nullable();
             
-            // Fiyat Bilgileri
-            $table->decimal('monthly_price', 10, 2)->default(0);
-            $table->decimal('monthly_kdv', 10, 2)->default(0);
-            $table->decimal('monthly_total', 10, 2)->default(0);
+            // Fiyat Bilgileri - OPSİYONEL
+            $table->decimal('monthly_price', 10, 2)->nullable();
+            $table->decimal('monthly_kdv', 10, 2)->nullable();
+            $table->decimal('monthly_total', 10, 2)->nullable();
             
             // Randevu Bilgileri
             $table->date('appointment_date')->nullable()->index(); // Randevu aramaları için index
