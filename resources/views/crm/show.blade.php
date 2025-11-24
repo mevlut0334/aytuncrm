@@ -110,7 +110,7 @@
                         </li>
                         <li class="mb-2">
                             <i class="bi bi-people text-info"></i>
-                            <strong>Personel:</strong> {{ $record->personnel_count ?? '0' }}
+                            <strong>Personel:</strong> {{ $record->personnel_count ?? '-' }}
                         </li>
                         <li class="mb-2">
                             <i class="bi bi-shield text-warning"></i>
@@ -118,7 +118,7 @@
                         </li>
                         <li class="mb-2">
                             <i class="bi bi-calendar-range text-success"></i>
-                            <strong>Sözleşme:</strong> {{ $record->contract_months ?? '0' }} Ay
+                            <strong>Sözleşme:</strong> {{ $record->contract_months ? $record->contract_months . ' Ay' : '-' }}
                         </li>
                     </ul>
                 </div>
@@ -297,7 +297,7 @@
                     <div class="row g-2 g-md-3">
                         <div class="col-12 col-sm-6">
                             <label class="form-label text-muted small">Personel Sayısı</label>
-                            <p class="fw-bold mb-0">{{ $record->personnel_count ?? '0' }}</p>
+                            <p class="fw-bold mb-0">{{ $record->personnel_count ?? '-' }}</p>
                         </div>
                         <div class="col-12 col-sm-6">
                             <label class="form-label text-muted small">Tehlike Sınıfı</label>
@@ -385,7 +385,7 @@
                         </div>
                         <div class="col-12 col-sm-6">
                             <label class="form-label text-muted small">Sözleşme Süresi</label>
-                            <p class="fw-bold mb-0">{{ $record->contract_months ?? '0' }} Ay</p>
+                            <p class="fw-bold mb-0">{{ $record->contract_months ? $record->contract_months . ' Ay' : '-' }}</p>
                         </div>
                         <div class="col-12 col-sm-6">
                             <label class="form-label text-muted small">Sözleşme Başlangıç</label>
@@ -420,15 +420,15 @@
                     <div class="row g-2 g-md-3">
                         <div class="col-12 col-sm-4">
                             <label class="form-label text-muted small">Aylık Fiyat</label>
-                            <p class="fw-bold mb-0">{{ number_format($record->monthly_price ?? 0, 2, ',', '.') }} ₺</p>
+                            <p class="fw-bold mb-0">{{ $record->monthly_price ? number_format($record->monthly_price, 2, ',', '.') . ' ₺' : '-' }}</p>
                         </div>
                         <div class="col-12 col-sm-4">
                             <label class="form-label text-muted small">KDV</label>
-                            <p class="fw-bold mb-0">{{ number_format($record->monthly_kdv ?? 0, 2, ',', '.') }} ₺</p>
+                            <p class="fw-bold mb-0">{{ $record->monthly_kdv ? number_format($record->monthly_kdv, 2, ',', '.') . ' ₺' : '-' }}</p>
                         </div>
                         <div class="col-12 col-sm-4">
                             <label class="form-label text-muted small">Toplam</label>
-                            <p class="fw-bold mb-0 text-success fs-5">{{ number_format($record->monthly_total ?? 0, 2, ',', '.') }} ₺</p>
+                            <p class="fw-bold mb-0 text-success fs-5">{{ $record->monthly_total ? number_format($record->monthly_total, 2, ',', '.') . ' ₺' : '-' }}</p>
                         </div>
                     </div>
                 </div>
