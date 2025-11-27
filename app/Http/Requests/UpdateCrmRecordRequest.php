@@ -24,6 +24,7 @@ class UpdateCrmRecordRequest extends FormRequest
             'file_number' => ['required', 'string', 'max:255'],
             'company_title' => ['required', 'string', 'max:255'],
             'company_address' => ['required', 'string'],
+            'service_address' => ['nullable', 'string'],
             
             // Lokasyon - ZORUNLU
             'province_id' => ['required', 'integer', 'exists:provinces,id'],
@@ -88,6 +89,7 @@ class UpdateCrmRecordRequest extends FormRequest
             'file_number' => 'Dosya Numarası',
             'company_title' => 'Firma Unvanı',
             'company_address' => 'Firma Adresi',
+            'service_address' => 'Hizmet Adresi',
             'province_id' => 'İl',
             'district_id' => 'İlçe',
             'neighborhood' => 'Mahalle',

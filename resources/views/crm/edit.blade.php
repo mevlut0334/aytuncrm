@@ -119,6 +119,18 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    {{-- ✅ YENİ ALAN: Hizmet Adresi --}}
+            <div class="col-12">
+                <label for="service_address" class="form-label">
+                    Hizmet Adresi
+                </label>
+                <textarea class="form-control form-control-sm @error('service_address') is-invalid @enderror"
+                          id="service_address" name="service_address" rows="2"
+                          placeholder="Hizmet adresi giriniz (opsiyonel)">{{ old('service_address', $record->service_address) }}</textarea>
+                @error('service_address')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
                 </div>
             </div>
         </div>

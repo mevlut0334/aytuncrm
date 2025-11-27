@@ -12,6 +12,7 @@ class CrmRecord extends Model
          'file_number',
     'company_title',
     'company_address',
+    'service_address',
     'province_id',
     'district_id',
     'neighborhood',

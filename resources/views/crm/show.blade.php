@@ -177,6 +177,12 @@
                             <label class="form-label text-muted small">Firma Adresi</label>
                             <p class="mb-0">{{ $record->company_address ?? '-' }}</p>
                         </div>
+                         {{-- ✅ YENİ ALAN: Hizmet Adresi --}}
+            
+            <div class="col-12">
+                <strong>Hizmet Adresi:</strong>
+                <p class="mb-0">{{ $record->service_address }}</p>
+            </div>
                     </div>
                 </div>
             </div>

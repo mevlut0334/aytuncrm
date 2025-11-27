@@ -24,6 +24,7 @@ class StoreCrmRecordRequest extends FormRequest
             'file_number' => ['required', 'string', 'max:255'],
             'company_title' => ['required', 'string', 'max:255'],
             'company_address' => ['required', 'string'],
+            'service_address' => ['nullable', 'string'],
             
             // Lokasyon Bilgileri - ZORUNLU
             'province_id' => ['required', 'exists:provinces,id'],
@@ -123,6 +124,7 @@ class StoreCrmRecordRequest extends FormRequest
             'file_number' => 'dosya numarası',
             'company_title' => 'firma unvanı',
             'company_address' => 'firma adresi',
+            'service_address' => 'hizmet adresi',
             'province_id' => 'il',
             'district_id' => 'ilçe',
             'neighborhood' => 'mahalle',
