@@ -59,6 +59,7 @@
             width: 100%;
         }
     }
+
 </style>
 @endpush
 
@@ -67,29 +68,29 @@
     {{-- Başlık ve Butonlar --}}
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3 mb-md-4 gap-2">
         <h2 class="mb-0"><i class="bi bi-building"></i> Firma Listesi</h2>
-        
+
         <div class="action-buttons w-100 w-md-auto">
             {{-- Excel Export Butonları - Sadece Admin --}}
             @if(auth()->user()->role === 'admin')
                 {{-- Tümünü Dışa Aktar --}}
-                <a href="{{ route('crm.export') }}" 
+                <a href="{{ route('crm.export') }}"
                    class="btn btn-success btn-sm"
                    title="Tüm firmaları Excel olarak indir">
-                    <i class="bi bi-file-earmark-excel"></i> 
+                    <i class="bi bi-file-earmark-excel"></i>
                     <span class="d-none d-sm-inline">Tümünü</span> Dışa Aktar
                 </a>
-                
+
                 {{-- Filtrelenmiş Verileri Dışa Aktar --}}
                 @if(request()->hasAny(['file_number', 'company_title', 'danger_level', 'doctor_name', 'health_staff_name', 'safety_expert_name', 'accountant_name', 'contract_creator']))
-                    <a href="{{ route('crm.export', request()->query()) }}" 
+                    <a href="{{ route('crm.export', request()->query()) }}"
                        class="btn btn-outline-success btn-sm"
                        title="Filtrelenmiş verileri Excel olarak indir">
-                        <i class="bi bi-funnel"></i> 
+                        <i class="bi bi-funnel"></i>
                         <span class="d-none d-sm-inline">Filtreyi</span> Dışa Aktar
                     </a>
                 @endif
             @endif
-            
+
             {{-- Yeni Firma Ekle Butonu --}}
             <a href="{{ route('crm.create') }}" class="btn btn-primary btn-sm">
                 <i class="bi bi-plus-circle"></i> Yeni Firma
@@ -108,72 +109,72 @@
                     {{-- Filtre alanları --}}
                     <div class="col-6 col-md-4 col-lg-3">
                         <label class="form-label small">Dosya Numarası</label>
-                        <input type="text" 
-                               name="file_number" 
-                               class="form-control form-control-sm filter-input" 
+                        <input type="text"
+                               name="file_number"
+                               class="form-control form-control-sm filter-input"
                                placeholder="Dosya no..."
                                value="{{ request('file_number') }}">
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3">
                         <label class="form-label small">Firma Unvanı</label>
-                        <input type="text" 
-                               name="company_title" 
-                               class="form-control form-control-sm filter-input" 
+                        <input type="text"
+                               name="company_title"
+                               class="form-control form-control-sm filter-input"
                                placeholder="Firma adı..."
                                value="{{ request('company_title') }}">
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3">
                         <label class="form-label small">Tehlike Sınıfı</label>
-                        <input type="text" 
-                               name="danger_level" 
-                               class="form-control form-control-sm filter-input" 
+                        <input type="text"
+                               name="danger_level"
+                               class="form-control form-control-sm filter-input"
                                placeholder="Tehlike sınıfı..."
                                value="{{ request('danger_level') }}">
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3">
                         <label class="form-label small">İş Yeri Hekimi</label>
-                        <input type="text" 
-                               name="doctor_name" 
-                               class="form-control form-control-sm filter-input" 
+                        <input type="text"
+                               name="doctor_name"
+                               class="form-control form-control-sm filter-input"
                                placeholder="Hekim..."
                                value="{{ request('doctor_name') }}">
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3">
                         <label class="form-label small">Sağlık Personeli</label>
-                        <input type="text" 
-                               name="health_staff_name" 
-                               class="form-control form-control-sm filter-input" 
+                        <input type="text"
+                               name="health_staff_name"
+                               class="form-control form-control-sm filter-input"
                                placeholder="Sağlık personeli..."
                                value="{{ request('health_staff_name') }}">
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3">
                         <label class="form-label small">İş Güvenliği Uzmanı</label>
-                        <input type="text" 
-                               name="safety_expert_name" 
-                               class="form-control form-control-sm filter-input" 
+                        <input type="text"
+                               name="safety_expert_name"
+                               class="form-control form-control-sm filter-input"
                                placeholder="Uzman..."
                                value="{{ request('safety_expert_name') }}">
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3">
                         <label class="form-label small">Mali Müşavir</label>
-                        <input type="text" 
-                               name="accountant_name" 
-                               class="form-control form-control-sm filter-input" 
+                        <input type="text"
+                               name="accountant_name"
+                               class="form-control form-control-sm filter-input"
                                placeholder="Mali müşavir..."
                                value="{{ request('accountant_name') }}">
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3">
                         <label class="form-label small">Sözleşmeyi Yapan</label>
-                        <input type="text" 
-                               name="contract_creator" 
-                               class="form-control form-control-sm filter-input" 
+                        <input type="text"
+                               name="contract_creator"
+                               class="form-control form-control-sm filter-input"
                                placeholder="Sözleşmeyi yapan..."
                                value="{{ request('contract_creator') }}">
                     </div>
@@ -255,20 +256,20 @@
                     </div>
 
                     <div class="d-flex justify-content-end gap-1 mt-2" onclick="event.stopPropagation();">
-                        <a href="{{ route('crm.show', $record->id) }}" 
-                           class="btn btn-sm btn-info" 
+                        <a href="{{ route('crm.show', $record->id) }}"
+                           class="btn btn-sm btn-info"
                            title="Detay">
                             <i class="bi bi-eye"></i>
                         </a>
-                        
+
                         @if(auth()->user()->role === 'admin')
-                            <a href="{{ route('crm.edit', $record->id) }}" 
-                               class="btn btn-sm btn-warning" 
+                            <a href="{{ route('crm.edit', $record->id) }}"
+                               class="btn btn-sm btn-warning"
                                title="Düzenle">
                                 <i class="bi bi-pencil"></i>
                             </a>
-                            <form action="{{ route('crm.destroy', $record->id) }}" 
-                                  method="POST" 
+                            <form action="{{ route('crm.destroy', $record->id) }}"
+                                  method="POST"
                                   class="d-inline"
                                   onsubmit="return confirm('Bu firmayı silmek istediğinizden emin misiniz?');">
                                 @csrf
@@ -354,20 +355,20 @@
                                     </td>
                                     <td>{{ $record->contract_creator_name ?? '-' }}</td>
                                     <td class="text-center" onclick="event.stopPropagation();">
-                                        <a href="{{ route('crm.show', $record->id) }}" 
-                                           class="btn btn-sm btn-info" 
+                                        <a href="{{ route('crm.show', $record->id) }}"
+                                           class="btn btn-sm btn-info"
                                            title="Detay">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        
+
                                         @if(auth()->user()->role === 'admin')
-                                            <a href="{{ route('crm.edit', $record->id) }}" 
-                                               class="btn btn-sm btn-warning" 
+                                            <a href="{{ route('crm.edit', $record->id) }}"
+                                               class="btn btn-sm btn-warning"
                                                title="Düzenle">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-                                            <form action="{{ route('crm.destroy', $record->id) }}" 
-                                                  method="POST" 
+                                            <form action="{{ route('crm.destroy', $record->id) }}"
+                                                  method="POST"
                                                   class="d-inline"
                                                   onsubmit="return confirm('Bu firmayı silmek istediğinizden emin misiniz?');">
                                                 @csrf
@@ -375,7 +376,7 @@
                                                 <button type="submit" class="btn btn-sm btn-danger" title="Sil">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
-                                            </form>
+                            </form>
                                         @endif
                                     </td>
                                 </tr>
@@ -394,10 +395,28 @@
         </div>
     </div>
 
-    {{-- Pagination --}}
+    {{-- Pagination - Sadece Sayfa Numaraları --}}
     @if($records->hasPages())
         <div class="d-flex justify-content-center mt-3 mt-md-4">
-            {{ $records->withQueryString()->links() }}
+            <nav role="navigation" aria-label="Pagination Navigation">
+                <ul class="pagination pagination-sm mb-0">
+                    @foreach ($records->onEachSide(1)->links()->elements as $element)
+                        @if (is_string($element))
+                            <li class="page-item disabled" aria-disabled="true"><span class="page-link">{{ $element }}</span></li>
+                        @endif
+
+                        @if (is_array($element))
+                            @foreach ($element as $page => $url)
+                                @if ($page == $records->currentPage())
+                                    <li class="page-item active" aria-current="page"><span class="page-link">{{ $page }}</span></li>
+                                @else
+                                    <li class="page-item"><a class="page-link" href="{{ $url }}{{ request()->getQueryString() ? '&' . request()->getQueryString() : '' }}">{{ $page }}</a></li>
+                                @endif
+                            @endforeach
+                        @endif
+                    @endforeach
+                </ul>
+            </nav>
         </div>
     @endif
 
@@ -418,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('keyup', function() {
             clearTimeout(typingTimer);
             const value = this.value.trim();
-            
+
             if (value.length >= 3 || value.length === 0) {
                 typingTimer = setTimeout(function() {
                     document.getElementById('filterForm').submit();
