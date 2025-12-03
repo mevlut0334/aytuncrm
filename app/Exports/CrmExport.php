@@ -3,14 +3,14 @@
 namespace App\Exports;
 
 use App\Models\CrmRecord;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
+class CrmExport implements FromCollection, WithHeadings, WithMapping, WithStyles, ShouldAutoSize
 {
     protected $filters;
 
@@ -19,7 +19,7 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
         $this->filters = $filters;
     }
 
-    public function query()
+    public function collection()
     {
         $query = CrmRecord::query()->with(['dangerLevel', 'province', 'district']);
 
@@ -58,7 +58,7 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
             $query->where('contract_creator_name', 'like', '%' . $this->filters['contract_creator'] . '%');
         }
 
-        return $query->orderBy('file_number');
+        return $query->orderBy('file_number')->get();
     }
 
     public function headings(): array
@@ -72,19 +72,19 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
             'İl',
             'İlçe',
             'Mahalle',
-            
+
             // Vergi & Resmi Bilgiler
             'Vergi Dairesi',
             'Vergi No',
             'SGK No',
             'Ticaret Sicil No',
             'TC Kimlik No',
-            
+
             // İletişim Bilgileri
             'Yetkili Adı',
             'Telefon',
             'E-posta',
-            
+
             // İSG Bilgileri
             'Personel Sayısı',
             'Tehlike Sınıfı',
@@ -92,7 +92,7 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
             'Sağlık Personeli',
             'İş Güvenliği Uzmanı',
             'Mali Müşavir',
-            
+
             // Sözleşme Bilgileri
             'Sözleşmeyi Yapan',
             'Sözleşme Başlangıç',
@@ -101,11 +101,11 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
             'Aylık Ücret',
             'Aylık KDV',
             'Aylık Toplam',
-            
+
             // Randevu Bilgileri
             'Randevu Tarihi',
             'Randevu Saati',
-            
+
             // Diğer
             'Notlar',
             'Oluşturulma Tarihi',
@@ -124,19 +124,19 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
             $record->province?->name ?? '-',
             $record->district?->name ?? '-',
             $record->neighborhood ?? '-',
-            
+
             // Vergi & Resmi Bilgiler
             $record->tax_office ?? '-',
             $record->tax_number ?? '-',
             $record->sgk_number ?? '-',
             $record->trade_register_no ?? '-',
             $record->identity_no ?? '-',
-            
+
             // İletişim Bilgileri
             $record->officer_name ?? '-',
             $record->phone ?? '-',
             $record->email ?? '-',
-            
+
             // İSG Bilgileri
             $record->personnel_count ?? '-',
             $record->dangerLevel?->name ?? '-',
@@ -144,7 +144,7 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
             $record->health_staff_name ?? '-',
             $record->safety_expert_name ?? '-',
             $record->accountant_name ?? '-',
-            
+
             // Sözleşme Bilgileri
             $record->contract_creator_name ?? '-',
             $record->contract_start ? date('d.m.Y', strtotime($record->contract_start)) : '-',
@@ -153,11 +153,11 @@ class CrmExport implements FromQuery, WithHeadings, WithMapping, WithStyles, Sho
             $record->monthly_price ? number_format($record->monthly_price, 2, ',', '.') . ' ₺' : '-',
             $record->monthly_kdv ? number_format($record->monthly_kdv, 2, ',', '.') . ' ₺' : '-',
             $record->monthly_total ? number_format($record->monthly_total, 2, ',', '.') . ' ₺' : '-',
-            
+
             // Randevu Bilgileri
             $record->appointment_date ? date('d.m.Y', strtotime($record->appointment_date)) : '-',
             $record->appointment_time ?? '-',
-            
+
             // Diğer
             $record->notes ?? '-',
             $record->created_at?->format('d.m.Y H:i') ?? '-',

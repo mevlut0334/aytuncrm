@@ -10,10 +10,19 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\WithUpserts;
 use Carbon\Carbon;
 
-class CrmImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading
+class CrmImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading, WithUpserts
 {
+    /**
+     * Duplicate kontrolü için unique alan
+     */
+    public function uniqueBy()
+    {
+        return 'file_number';
+    }
+
     // Default ilçe mapping'i (İl merkezi için)
     private $defaultDistricts = [
         'Adana' => 'Seyhan',
