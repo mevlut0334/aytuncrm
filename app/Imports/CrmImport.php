@@ -175,21 +175,21 @@ class CrmImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkR
             'email' => $row['e_posta'] ?? null,
 
             // İSG Bilgileri
-            'personnel_count' => $row['personel_sayisi'] ?? null,
-            'danger_level_id' => $dangerLevel?->id ?? null,
-            'doctor_name' => $row['is_yeri_hekimi'] ?? null,
-            'health_staff_name' => $row['saglik_personeli'] ?? null,
-            'safety_expert_name' => $row['is_guvenligi_uzmani'] ?? null,
-            'accountant_name' => $row['mali_musavir'] ?? null,
+    'personnel_count' => $this->parseInt($row['personel_sayisi'] ?? null),
+    'danger_level_id' => $dangerLevel?->id ?? null,
+    'doctor_name' => $row['is_yeri_hekimi'] ?? null,
+    'health_staff_name' => $row['saglik_personeli'] ?? null,
+    'safety_expert_name' => $row['is_guvenligi_uzmani'] ?? null,
+    'accountant_name' => $row['mali_musavir'] ?? null,
 
-            // Sözleşme Bilgileri
-            'contract_creator_name' => $row['sozlesmeyi_yapan'] ?? null,
-            'contract_start' => $this->parseDate($row['sozlesme_baslangic'] ?? null),
-            'contract_end' => $this->parseDate($row['sozlesme_bitis'] ?? null),
-            'contract_months' => $row['sozlesme_suresi_ay'] ?? null,
-            'monthly_price' => $this->parsePrice($row['aylik_ucret'] ?? null),
-            'monthly_kdv' => $this->parsePrice($row['aylik_kdv'] ?? null),
-            'monthly_total' => $this->parsePrice($row['aylik_toplam'] ?? null),
+    // Sözleşme Bilgileri
+    'contract_creator_name' => $row['sozlesmeyi_yapan'] ?? null,
+    'contract_start' => $this->parseDate($row['sozlesme_baslangic'] ?? null),
+    'contract_end' => $this->parseDate($row['sozlesme_bitis'] ?? null),
+    'contract_months' => $this->parseInt($row['sozlesme_suresi_ay'] ?? null),
+    'monthly_price' => $this->parsePrice($row['aylik_ucret'] ?? null),
+    'monthly_kdv' => $this->parsePrice($row['aylik_kdv'] ?? null),
+    'monthly_total' => $this->parsePrice($row['aylik_toplam'] ?? null),
 
             // Randevu Bilgileri
             'appointment_date' => $this->parseDate($row['randevu_tarihi'] ?? null),
@@ -212,19 +212,28 @@ class CrmImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkR
         return mb_convert_case($name, MB_CASE_TITLE, 'UTF-8');
     }
 
-    private function parseDate($date)
-    {
-        if (empty($date) || $date === '-') {
-            return null;
-        }
-
-        try {
-            // Excel'den gelen tarihi parse et (dd.mm.yyyy formatı)
-            return Carbon::createFromFormat('d.m.Y', $date)->format('Y-m-d');
-        } catch (\Exception $e) {
-            return null;
-        }
+  private function parseDate($date)
+{
+    // null veya boş kontrolü
+    if ($date === null || $date === '') {
+        return null;
     }
+
+    // String'e çevir ve temizle
+    $dateStr = trim((string) $date);
+
+    // Tire veya boşsa null döndür
+    if ($dateStr === '-' || $dateStr === '') {
+        return null;
+    }
+
+    try {
+        $parsedDate = Carbon::createFromFormat('d.m.Y', $dateStr);
+        return $parsedDate->format('Y-m-d');
+    } catch (\Exception $e) {
+        return null;
+    }
+}
 
     private function parsePrice($price)
     {
@@ -237,6 +246,52 @@ class CrmImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkR
         $price = str_replace(',', '.', $price);
 
         return (float) $price;
+    }
+
+   private function parseTime($time)
+{
+    // null veya boş kontrolü
+    if ($time === null || $time === '') {
+        return null;
+    }
+
+    // String'e çevir ve temizle
+    $timeStr = trim((string) $time);
+
+    // Tire veya boşsa null döndür
+    if ($timeStr === '-' || $timeStr === '') {
+        return null;
+    }
+
+    // Eğer sadece saat formatındaysa (HH:MM)
+    if (preg_match('/^\d{1,2}:\d{2}$/', $timeStr)) {
+        return $timeStr . ':00';
+    }
+
+    return null; // Geçersiz format
+}
+
+private function parseInt($value)
+    {
+        // null veya boş kontrolü
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        // String'e çevir ve temizle
+        $valueStr = trim((string) $value);
+
+        // Tire veya boşsa null döndür
+        if ($valueStr === '-' || $valueStr === '' || $valueStr === '?') {
+            return null;
+        }
+
+        // Sayı değilse null döndür
+        if (!is_numeric($valueStr)) {
+            return null;
+        }
+
+        return (int) $valueStr;
     }
 
     public function batchSize(): int

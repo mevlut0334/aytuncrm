@@ -51,7 +51,7 @@ class CrmRecord extends Model
         'contract_start' => 'date',
         'contract_end' => 'date',
         'appointment_date' => 'date',
-        'appointment_time' => 'datetime',
+        'appointment_time' => 'string',
         'monthly_price' => 'decimal:2',
         'monthly_kdv' => 'decimal:2',
         'monthly_total' => 'decimal:2',
@@ -165,10 +165,10 @@ class CrmRecord extends Model
     public function getContractStatus(): string
     {
         $days = $this->getDaysUntilContractEnd();
-        
+
         if ($days < 0) return 'expired';
         if ($days <= 30) return 'expiring_soon';
-        
+
         return 'active';
     }
 }
