@@ -87,7 +87,7 @@
                             Dosya Numarası <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control form-control-sm @error('file_number') is-invalid @enderror"
-                               id="file_number" name="file_number" 
+                               id="file_number" name="file_number"
                                value="{{ old('file_number', $record->file_number) }}"
                                placeholder="Örn: 2024-001" required>
                         @error('file_number')
@@ -100,7 +100,7 @@
                             Firma Unvanı <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control form-control-sm @error('company_title') is-invalid @enderror"
-                               id="company_title" name="company_title" 
+                               id="company_title" name="company_title"
                                value="{{ old('company_title', $record->company_title) }}"
                                placeholder="Firma tam unvanını giriniz" required>
                         @error('company_title')
@@ -150,7 +150,7 @@
                                 id="province_id" name="province_id" required>
                             <option value="">Seçiniz</option>
                             @foreach($provinces as $province)
-                                <option value="{{ $province->id }}" 
+                                <option value="{{ $province->id }}"
                                     {{ old('province_id', $record->province_id) == $province->id ? 'selected' : '' }}>
                                     {{ $province->plate_code }} - {{ $province->name }}
                                 </option>
@@ -169,7 +169,7 @@
                                 id="district_id" name="district_id" required>
                             <option value="">Önce il seçiniz</option>
                             @foreach($districts as $district)
-                                <option value="{{ $district->id }}" 
+                                <option value="{{ $district->id }}"
                                     {{ old('district_id', $record->district_id) == $district->id ? 'selected' : '' }}>
                                     {{ $district->name }}
                                 </option>
@@ -183,7 +183,7 @@
                     <div class="col-12 col-md-4">
                         <label for="neighborhood" class="form-label">Mahalle</label>
                         <input type="text" class="form-control form-control-sm @error('neighborhood') is-invalid @enderror"
-                               id="neighborhood" name="neighborhood" 
+                               id="neighborhood" name="neighborhood"
                                value="{{ old('neighborhood', $record->neighborhood) }}"
                                placeholder="Mahalle adı">
                         @error('neighborhood')
@@ -206,7 +206,7 @@
                             Vergi Dairesi <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control form-control-sm @error('tax_office') is-invalid @enderror"
-                               id="tax_office" name="tax_office" 
+                               id="tax_office" name="tax_office"
                                value="{{ old('tax_office', $record->tax_office) }}"
                                placeholder="Örn: Çankaya" required>
                         @error('tax_office')
@@ -219,7 +219,7 @@
                             Vergi Numarası <span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control form-control-sm @error('tax_number') is-invalid @enderror"
-                               id="tax_number" name="tax_number" 
+                               id="tax_number" name="tax_number"
                                value="{{ old('tax_number', $record->tax_number) }}"
                                placeholder="10 haneli" maxlength="10" required>
                         @error('tax_number')
@@ -230,7 +230,7 @@
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="sgk_number" class="form-label">SGK Numarası</label>
                         <input type="text" class="form-control form-control-sm @error('sgk_number') is-invalid @enderror"
-                               id="sgk_number" name="sgk_number" 
+                               id="sgk_number" name="sgk_number"
                                value="{{ old('sgk_number', $record->sgk_number) }}"
                                placeholder="SGK sicil no">
                         @error('sgk_number')
@@ -242,7 +242,7 @@
                         <label for="trade_register_no" class="form-label">Ticaret Sicil No</label>
                         <input type="text" class="form-control form-control-sm @error('trade_register_no') is-invalid @enderror"
                                id="trade_register_no" name="trade_register_no"
-                               value="{{ old('trade_register_no', $record->trade_register_no) }}" 
+                               value="{{ old('trade_register_no', $record->trade_register_no) }}"
                                placeholder="Ticaret sicil">
                         @error('trade_register_no')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -252,7 +252,7 @@
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="identity_no" class="form-label">TC Kimlik No</label>
                         <input type="text" class="form-control form-control-sm @error('identity_no') is-invalid @enderror"
-                               id="identity_no" name="identity_no" 
+                               id="identity_no" name="identity_no"
                                value="{{ old('identity_no', $record->identity_no) }}"
                                placeholder="11 haneli" maxlength="11">
                         @error('identity_no')
@@ -272,10 +272,10 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-4">
                         <label for="officer_name" class="form-label">
-                            Yetkili Adı Soyadı 
+                            Yetkili Adı Soyadı
                         </label>
                         <input type="text" class="form-control form-control-sm @error('officer_name') is-invalid @enderror"
-                               id="officer_name" name="officer_name" 
+                               id="officer_name" name="officer_name"
                                value="{{ old('officer_name', $record->officer_name) }}"
                                placeholder="Ad Soyad">
                         @error('officer_name')
@@ -285,10 +285,10 @@
 
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="phone" class="form-label">
-                            Telefon 
+                            Telefon
                         </label>
                         <input type="text" class="form-control form-control-sm @error('phone') is-invalid @enderror"
-                               id="phone" name="phone" 
+                               id="phone" name="phone"
                                value="{{ old('phone', $record->phone) }}"
                                placeholder="0XXX XXX XX XX">
                         @error('phone')
@@ -299,7 +299,7 @@
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="email" class="form-label">E-posta</label>
                         <input type="email" class="form-control form-control-sm @error('email') is-invalid @enderror"
-                               id="email" name="email" 
+                               id="email" name="email"
                                value="{{ old('email', $record->email) }}"
                                placeholder="ornek@firma.com">
                         @error('email')
@@ -319,11 +319,11 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-6">
                         <label for="personnel_count" class="form-label">
-                            Personel Sayısı 
+                            Personel Sayısı
                         </label>
                         <input type="number" class="form-control form-control-sm @error('personnel_count') is-invalid @enderror"
                                id="personnel_count" name="personnel_count"
-                               value="{{ old('personnel_count', $record->personnel_count) }}" 
+                               value="{{ old('personnel_count', $record->personnel_count) }}"
                                min="0" placeholder="Örn: 50">
                         @error('personnel_count')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -332,13 +332,13 @@
 
                     <div class="col-12 col-md-6">
                         <label for="danger_level_id" class="form-label">
-                            Tehlike Sınıfı 
+                            Tehlike Sınıfı
                         </label>
                         <select class="form-select form-select-sm @error('danger_level_id') is-invalid @enderror"
                                 id="danger_level_id" name="danger_level_id">
                             <option value="">Seçiniz</option>
                             @foreach($dangerLevels as $level)
-                                <option value="{{ $level->id }}" 
+                                <option value="{{ $level->id }}"
                                     {{ old('danger_level_id', $record->danger_level_id) == $level->id ? 'selected' : '' }}>
                                     {{ $level->name }}
                                 </option>
@@ -362,7 +362,7 @@
                     <div class="col-12 col-md-6">
                         <label for="doctor_name" class="form-label">İş Yeri Hekimi</label>
                         <input type="text" class="form-control form-control-sm @error('doctor_name') is-invalid @enderror"
-                               id="doctor_name" name="doctor_name" 
+                               id="doctor_name" name="doctor_name"
                                value="{{ old('doctor_name', $record->doctor_name) }}"
                                placeholder="Hekim adı soyadı">
                         @error('doctor_name')
@@ -373,7 +373,7 @@
                     <div class="col-12 col-md-6">
                         <label for="health_staff_name" class="form-label">Sağlık Personeli</label>
                         <input type="text" class="form-control form-control-sm @error('health_staff_name') is-invalid @enderror"
-                               id="health_staff_name" name="health_staff_name" 
+                               id="health_staff_name" name="health_staff_name"
                                value="{{ old('health_staff_name', $record->health_staff_name) }}"
                                placeholder="Sağlık personeli adı soyadı">
                         @error('health_staff_name')
@@ -384,7 +384,7 @@
                     <div class="col-12 col-md-6">
                         <label for="safety_expert_name" class="form-label">İş Güvenliği Uzmanı</label>
                         <input type="text" class="form-control form-control-sm @error('safety_expert_name') is-invalid @enderror"
-                               id="safety_expert_name" name="safety_expert_name" 
+                               id="safety_expert_name" name="safety_expert_name"
                                value="{{ old('safety_expert_name', $record->safety_expert_name) }}"
                                placeholder="İş güvenliği uzmanı adı soyadı">
                         @error('safety_expert_name')
@@ -395,7 +395,7 @@
                     <div class="col-12 col-md-6">
                         <label for="accountant_name" class="form-label">Mali Müşavir</label>
                         <input type="text" class="form-control form-control-sm @error('accountant_name') is-invalid @enderror"
-                               id="accountant_name" name="accountant_name" 
+                               id="accountant_name" name="accountant_name"
                                value="{{ old('accountant_name', $record->accountant_name) }}"
                                placeholder="Mali müşavir adı soyadı">
                         @error('accountant_name')
@@ -415,10 +415,10 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_creator_name" class="form-label">
-                            Sözleşmeyi Yapan 
+                            Sözleşmeyi Yapan
                         </label>
                         <input type="text" class="form-control form-control-sm @error('contract_creator_name') is-invalid @enderror"
-                               id="contract_creator_name" name="contract_creator_name" 
+                               id="contract_creator_name" name="contract_creator_name"
                                value="{{ old('contract_creator_name', $record->contract_creator_name) }}"
                                placeholder="Ad Soyad">
                         @error('contract_creator_name')
@@ -428,11 +428,11 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_start" class="form-label">
-                            Sözleşme Başlangıç 
+                            Sözleşme Başlangıç
                         </label>
                         <input type="date" class="form-control form-control-sm @error('contract_start') is-invalid @enderror"
                                id="contract_start" name="contract_start"
-                               value="{{ old('contract_start', $record->contract_start ? $record->contract_start->format('Y-m-d') : '') }}" 
+                               value="{{ old('contract_start', $record->contract_start ? $record->contract_start->format('Y-m-d') : '') }}"
                                >
                         @error('contract_start')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -441,11 +441,11 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_end" class="form-label">
-                            Sözleşme Bitiş 
+                            Sözleşme Bitiş
                         </label>
                         <input type="date" class="form-control form-control-sm @error('contract_end') is-invalid @enderror"
-                               id="contract_end" name="contract_end" 
-                               value="{{ old('contract_end', $record->contract_end ? $record->contract_end->format('Y-m-d') : '') }}" 
+                               id="contract_end" name="contract_end"
+                               value="{{ old('contract_end', $record->contract_end ? $record->contract_end->format('Y-m-d') : '') }}"
                                >
                         @error('contract_end')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -454,11 +454,11 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_months" class="form-label">
-                            Sözleşme Süresi (Ay) 
+                            Sözleşme Süresi (Ay)
                         </label>
                         <input type="number" class="form-control form-control-sm @error('contract_months') is-invalid @enderror"
                                id="contract_months" name="contract_months"
-                               value="{{ old('contract_months', $record->contract_months) }}" 
+                               value="{{ old('contract_months', $record->contract_months) }}"
                                min="1" max="120">
                         @error('contract_months')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -477,10 +477,10 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-4">
                         <label for="monthly_price" class="form-label">
-                            Aylık Fiyat (₺) 
+                            Aylık Fiyat (₺)
                         </label>
                         <input type="number" class="form-control form-control-sm @error('monthly_price') is-invalid @enderror"
-                               id="monthly_price" name="monthly_price" 
+                               id="monthly_price" name="monthly_price"
                                value="{{ old('monthly_price', $record->monthly_price) }}"
                                step="0.01" min="0" placeholder="0.00">
                         @error('monthly_price')
@@ -490,10 +490,10 @@
 
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="monthly_kdv" class="form-label">
-                            KDV (₺) 
+                            KDV (₺)
                         </label>
                         <input type="number" class="form-control form-control-sm @error('monthly_kdv') is-invalid @enderror"
-                               id="monthly_kdv" name="monthly_kdv" 
+                               id="monthly_kdv" name="monthly_kdv"
                                value="{{ old('monthly_kdv', $record->monthly_kdv) }}"
                                step="0.01" min="0" placeholder="0.00">
                         @error('monthly_kdv')
@@ -503,10 +503,10 @@
 
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="monthly_total" class="form-label">
-                            Toplam (₺) 
+                            Toplam (₺)
                         </label>
                         <input type="number" class="form-control form-control-sm @error('monthly_total') is-invalid @enderror"
-                               id="monthly_total" name="monthly_total" 
+                               id="monthly_total" name="monthly_total"
                                value="{{ old('monthly_total', $record->monthly_total) }}"
                                step="0.01" min="0" placeholder="0.00">
                         @error('monthly_total')
@@ -527,7 +527,7 @@
                     <div class="col-12 col-md-6">
                         <label for="appointment_date" class="form-label">Randevu Tarihi</label>
                         <input type="date" class="form-control form-control-sm @error('appointment_date') is-invalid @enderror"
-                               id="appointment_date" name="appointment_date" 
+                               id="appointment_date" name="appointment_date"
                                value="{{ old('appointment_date', $record->appointment_date ? $record->appointment_date->format('Y-m-d') : '') }}">
                         @error('appointment_date')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -537,8 +537,8 @@
                     <div class="col-12 col-md-6">
                         <label for="appointment_time" class="form-label">Randevu Saati</label>
                         <input type="time" class="form-control form-control-sm @error('appointment_time') is-invalid @enderror"
-                               id="appointment_time" name="appointment_time" 
-                               value="{{ old('appointment_time', $record->appointment_time ? $record->appointment_time->format('H:i') : '') }}">
+                               id="appointment_time" name="appointment_time"
+                               value="{{ old('appointment_time', $record->appointment_time) }}">
                         @error('appointment_time')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
