@@ -221,7 +221,7 @@
                         <input type="text" class="form-control form-control-sm @error('tax_number') is-invalid @enderror"
                                id="tax_number" name="tax_number"
                                value="{{ old('tax_number', $record->tax_number) }}"
-                               placeholder="10 haneli" maxlength="10" required>
+                               placeholder="10 veya 11 haneli" maxlength="11" required>
                         @error('tax_number')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

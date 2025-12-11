@@ -202,7 +202,7 @@
                         </label>
                         <input type="text" class="form-control form-control-sm @error('tax_number') is-invalid @enderror"
                                id="tax_number" name="tax_number" value="{{ old('tax_number') }}"
-                               placeholder="10 haneli" maxlength="10" required>
+                               placeholder="10 veya 11 haneli" maxlength="11" required>
                         @error('tax_number')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -250,7 +250,7 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-4">
                         <label for="officer_name" class="form-label">
-                            Yetkili Adı Soyadı 
+                            Yetkili Adı Soyadı
                         </label>
                         <input type="text" class="form-control form-control-sm @error('officer_name') is-invalid @enderror"
                                id="officer_name" name="officer_name" value="{{ old('officer_name') }}"
@@ -262,7 +262,7 @@
 
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="phone" class="form-label">
-                            Telefon 
+                            Telefon
                         </label>
                         <input type="text" class="form-control form-control-sm @error('phone') is-invalid @enderror"
                                id="phone" name="phone" value="{{ old('phone') }}"
@@ -294,7 +294,7 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-6">
                         <label for="personnel_count" class="form-label">
-                            Personel Sayısı 
+                            Personel Sayısı
                         </label>
                         <input type="number" class="form-control form-control-sm @error('personnel_count') is-invalid @enderror"
                                id="personnel_count" name="personnel_count"
@@ -306,7 +306,7 @@
 
                     <div class="col-12 col-md-6">
                         <label for="danger_level_id" class="form-label">
-                            Tehlike Sınıfı 
+                            Tehlike Sınıfı
                         </label>
                         <select class="form-select form-select-sm @error('danger_level_id') is-invalid @enderror"
                                 id="danger_level_id" name="danger_level_id">
@@ -387,7 +387,7 @@
                             Sözleşmeyi Yapan
                         </label>
                         <input type="text" class="form-control form-control-sm @error('contract_creator_name') is-invalid @enderror"
-                               id="contract_creator_name" name="contract_creator_name" 
+                               id="contract_creator_name" name="contract_creator_name"
                                value="{{ old('contract_creator_name') }}"
                                placeholder="Ad Soyad">
                         @error('contract_creator_name')
@@ -397,7 +397,7 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_start" class="form-label">
-                            Sözleşme Başlangıç 
+                            Sözleşme Başlangıç
                         </label>
                         <input type="date" class="form-control form-control-sm @error('contract_start') is-invalid @enderror"
                                id="contract_start" name="contract_start"
@@ -409,7 +409,7 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <label for="contract_end" class="form-label">
-                            Sözleşme Bitiş 
+                            Sözleşme Bitiş
                         </label>
                         <input type="date" class="form-control form-control-sm @error('contract_end') is-invalid @enderror"
                                id="contract_end" name="contract_end" value="{{ old('contract_end') }}">
@@ -442,7 +442,7 @@
                 <div class="row g-2 g-md-3">
                     <div class="col-12 col-md-4">
                         <label for="monthly_price" class="form-label">
-                            Aylık Fiyat (₺) 
+                            Aylık Fiyat (₺)
                         </label>
                         <input type="number" class="form-control form-control-sm @error('monthly_price') is-invalid @enderror"
                                id="monthly_price" name="monthly_price" value="{{ old('monthly_price') }}"
@@ -454,7 +454,7 @@
 
                     <div class="col-12 col-sm-6 col-md-4">
                         <label for="monthly_kdv" class="form-label">
-                            KDV (₺) 
+                            KDV (₺)
                         </label>
                         <input type="number" class="form-control form-control-sm @error('monthly_kdv') is-invalid @enderror"
                                id="monthly_kdv" name="monthly_kdv" value="{{ old('monthly_kdv') }}"
